@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Overview Sentiment Analysis (Multi-Class)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 80%; height: 100px; margin-bottom: 10px; display: block;}
+        button { padding: 10px; cursor: pointer; }
+        #result { margin-top: 20px; font-weight: bold; color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Analyze Movie Overview Sentiment (Multi-Class SVC Model)</h1>
+    <form id="sentimentForm">
+        <label for="overview_text">Enter Movie Overview:</label><br>
+        <textarea id="overview_text" name="overview_text" rows="8" cols="60" required placeholder="Enter movie overview text here..."></textarea><br>
+        <button type="submit">Analyze Sentiment</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        const sentimentForm = document.getElementById('sentimentForm');
+        const resultDiv = document.getElementById('result');
+        const overviewTextarea = document.getElementById('overview_text');
+
+        sentimentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const reviewText = overviewTextarea.value;
+
+            if (reviewText.trim() === '') {
+                resultDiv.innerText = 'Please enter some text to analyze.';
+                resultDiv.style.color = 'red';
+                return;
+            }
+
+            resultDiv.innerText = 'Analyzing sentiment...';
+            resultDiv.style.color = 'gray';
+
+            fetch('/predict', { // Request goes to the /predict route of the app running on port 5000
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ overview: reviewText })
+            })
+            .then(response => {
+                 if (!response.ok) {
+                    return response.json().then(err => { throw new Error(err.error || 'An API error occurred'); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.sentiment) {
+                     resultDiv.innerText = 'Predicted Sentiment: ' + data.sentiment;
+                     resultDiv.style.color = 'green'; // You could add logic here to color based on sentiment category
+                } else {
+                     resultDiv.innerText = 'Analysis Result: ' + (data.error || 'Unknown error');
+                     resultDiv.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerText = 'Error analyzing sentiment: ' + error.message;
+                resultDiv.style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>
