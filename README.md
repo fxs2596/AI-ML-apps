@@ -29,9 +29,9 @@ ulti_class_sentiment_app/
 ├── templates/
 │   └── index.html        # HTML and JavaScript for the web interface
 ├── imdb_top_1000.csv     # The dataset used
-└── # Saved models (generated after running senti.py)
-# ├── svc_model.joblib
-# └── tfidf_vectorizer.joblib
+└──  Saved models (generated after running senti.py)
+  ├── svc_model.joblib
+  └── tfidf_vectorizer.joblib
 
 *(Note: The .joblib files are generated when you run `senti.py`.)*
 
@@ -140,9 +140,9 @@ binary_sentiment_app/
 ├── templates2/         # Folder for binary HTML
 │   └── index2.html     # HTML and JavaScript for the web interface
 ├── movie.csv           # Your new binary sentiment dataset
-└── # Saved models (generated after running senti2.py)
-# ├── binary_sentiment_lr_v2.joblib
-# └── tfidf_vectorizer_v2.joblib
+└──   Saved models (generated after running senti2.py)
+  ├── binary_sentiment_lr_v2.joblib
+  └── tfidf_vectorizer_v2.joblib
 
 *(Note: The .joblib files are generated when you run `senti2.py`.)*
 
